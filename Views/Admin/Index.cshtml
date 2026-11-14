@@ -1,0 +1,364 @@
+﻿@{
+    ViewData["Title"] = "Quản trị hệ thống (Admin Dashboard)";
+}
+
+<div class="container my-4">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert" id="success-alert">
+            <strong>✨ Thông báo:</strong> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <!-- Script tự động ẩn thông báo sau 3 giây để tránh bị treo lặp lại -->
+        <script>
+                setTimeout(function () {
+                    var alertBox = document.getElementById('success-alert');
+                    if (alertBox) {
+                        var bsAlert = new bootstrap.Alert(alertBox);
+                        bsAlert.close();
+                    }
+                }, 3000);
+        </script>
+    }
+
+    <!-- 0. FORM GỬI THÔNG BÁO KHUYẾN MÃI -->
+    <div class="card shadow-sm border-warning mb-4">
+        <div class="card-header bg-warning text-dark fw-bold">📢 Gửi Thông Báo Khuyến Mãi Đến Hộp Thư Thành Viên</div>
+        <div class="card-body">
+            <form asp-action="SendNotification" method="post" class="row g-2">
+                <div class="col-md-4">
+                    <input type="text" name="title" class="form-control form-control-sm" required placeholder="Tiêu đề thông báo..." />
+                </div>
+                <div class="col-md-6">
+                    <input type="text" name="content" class="form-control form-control-sm" required placeholder="Nội dung ưu đãi / mã giảm giá..." />
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-sm btn-dark w-100 fw-bold">📢 Gửi Ngay</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Thanh tiêu đề Admin -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 p-3 bg-white rounded shadow-sm border">
+        <div>
+            <h2 class="text-danger fw-bold mb-0">⚙️ Hệ Thống Quản Trị (Admin Dashboard)</h2>
+            <small class="text-muted">Quản lý doanh thu, duyệt đơn hàng, tin nhắn hỗ trợ, kho sách và tài khoản người dùng</small>
+        </div>
+        <div class="mt-2 mt-md-0">
+            <a asp-action="ManageBooks" class="btn btn-primary fw-bold me-2">📚 Quản Lý Kho Sách & Danh Mục</a>
+            <a asp-action="CreateBook" class="btn btn-success fw-bold">➕ Nhập Sách Mới</a>
+        </div>
+    </div>
+
+    <!-- 4 Ô Thống kê -->
+    <div class="row text-white mb-4 g-3">
+        <div class="col-md-3">
+            <div class="card bg-primary p-3 shadow-sm border-0 h-100">
+                <h6>📦 Tổng đầu sách</h6>
+                <h2 class="fw-bold mb-0">@ViewBag.TotalBooks</h2>
+                <small>Tổng tồn kho: @ViewBag.TotalStock cuốn</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success p-3 shadow-sm border-0 h-100">
+                <h6>🛒 Tổng đơn đặt hàng</h6>
+                <h2 class="fw-bold mb-0">@ViewBag.TotalOrders</h2>
+                <small>Đơn hàng trên toàn hệ thống</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger p-3 shadow-sm border-0 h-100">
+                <h6>💰 Tổng doanh thu</h6>
+                <h2 class="fw-bold mb-0">@(((decimal)ViewBag.TotalRevenue).ToString("N0")) đ</h2>
+                <small>Không tính các đơn đã hủy</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-dark p-3 shadow-sm border-0 h-100">
+                <h6>👥 Tổng thành viên</h6>
+                <h2 class="fw-bold mb-0">@(((List<BookStoreWeb.Models.AppUser>)ViewBag.Users).Count)</h2>
+                <small>Khách hàng đã đăng ký</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- HỘP THƯ HỖ TRỢ -->
+    <div class="card shadow-sm border-primary mb-4">
+        <div class="card-header bg-primary text-white fw-bold">
+            🎧 Hộp Thư Tin Nhắn & Yêu Cầu Hỗ Trợ Từ Khách Hàng (CSKH)
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive" style="max-height: 250px; overflow-y: auto;">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light sticky-top">
+                        <tr>
+                            <th>Thời gian</th>
+                            <th>Khách hàng & SĐT</th>
+                            <th>Chủ đề thắc mắc</th>
+                            <th>Nội dung tin nhắn</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ViewBag.Tickets != null && ((List<BookStoreWeb.Models.SupportTicket>)ViewBag.Tickets).Any())
+                        {
+                            foreach (var ticket in (List<BookStoreWeb.Models.SupportTicket>)ViewBag.Tickets)
+                            {
+                                <tr>
+                                    <td class="small">@ticket.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>
+                                        <div class="fw-bold">@ticket.FullName</div>
+                                        <div class="text-muted small">📞 @ticket.Phone</div>
+                                    </td>
+                                    <td><span class="badge bg-info text-dark">@ticket.Topic</span></td>
+                                    <td class="small">@ticket.Message</td>
+                                    <td><span class="badge bg-success">Đã tiếp nhận</span></td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-3">Chưa có yêu cầu hỗ trợ nào từ khách hàng.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUẢN LÝ & DUYỆT ĐƠN HÀNG (CÓ THANH CUỘN THU GỌN KHI NHIỀU SÁCH) -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">📦 Quản Lý & Duyệt Đơn Hàng Khách Đặt</h5>
+            <span class="badge bg-light text-dark">Tổng: @Model.Count đơn hàng</span>
+        </div>
+        <div class="card-body p-0">
+            <!-- Thêm style max-height và overflow để khi nhiều sách hay nhiều đơn sẽ cuộn gọn gàng -->
+            <div class="table-responsive" style="max-height: 450px; overflow-y: auto;">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light sticky-top" style="z-index: 1;">
+                        <tr>
+                            <th>Mã ĐH</th>
+                            <th>Ngày đặt</th>
+                            <th>Khách nhận & Địa chỉ</th>
+                            <th>Chi tiết sách đặt</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái & Duyệt đơn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="fw-bold">#@item.OrderId</td>
+                                <td class="small">@item.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>
+                                    <div class="fw-bold">@item.ReceiverName</div>
+                                    <div class="text-muted small">📞 @item.ReceiverPhone</div>
+                                    <div class="text-secondary" style="font-size: 0.75rem;">📍 @item.ShippingAddress</div>
+                                </td>
+                                <td>
+                                    <div style="max-height: 80px; overflow-y: auto;">
+                                        @if (item.OrderDetails != null)
+                                        {
+                                            foreach (var detail in item.OrderDetails)
+                                            {
+                                                <div class="small">• @(detail.Book?.Title ?? "Sách") (x@(detail.Quantity)) - @detail.UnitPrice.ToString("N0")đ</div>
+                                            }
+                                        }
+                                    </div>
+                                </td>
+                                <td class="text-danger fw-bold">@item.TotalAmount.ToString("N0") đ</td>
+                                <td style="min-width: 250px;">
+                                    <form asp-action="UpdateOrderStatus" method="post" class="d-flex flex-column gap-2">
+                                        <input type="hidden" name="orderId" value="@item.OrderId" />
+                                        <div class="d-flex gap-1">
+                                            <select name="status" class="form-select form-select-sm status-select" data-id="@item.OrderId">
+                                                <option value="Chờ duyệt" selected="@(item.Status == "Chờ duyệt")">⏳ Chờ duyệt</option>
+                                                <option value="Đang giao" selected="@(item.Status == "Đang giao")">🚚 Đang giao</option>
+                                                <option value="Đã giao" selected="@(item.Status == "Đã giao")">✅ Đã giao</option>
+                                                <option value="Đã hủy" selected="@(item.Status.StartsWith("Đã hủy"))">❌ Đã hủy</option>
+                                            </select>
+                                            <button type="submit" class="btn btn-sm btn-primary">Lưu</button>
+                                        </div>
+                                        <!-- Ô nhập lý do chỉ hiện khi chọn Đã hủy -->
+                                        <input type="text" name="cancelReason" id="reason-@item.OrderId" class="form-control form-control-sm @(item.Status.StartsWith("Đã hủy") ? "" : "d-none")" value="@(item.Status.StartsWith("Đã hủy") && item.Status.Contains(" - Lý do: ") ? item.Status.Split(new string[] { " - Lý do: " }, StringSplitOptions.None)[1] : "")" placeholder="Nhập lý do hủy đơn bắt buộc..." />
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- BÁO CÁO CHI TIẾT ĐƠN HÀNG BỊ HỦY & LÝ DO CHUẨN XÁC -->
+    <div class="card shadow-sm border-danger mb-4">
+        <div class="card-header bg-danger text-white fw-bold">
+            ❌ Báo Cáo Thống Kê Đơn Hàng Đã Hủy & Nguyên Nhân Phản Hồi
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                <table class="table table-striped align-middle mb-0">
+                    <thead class="table-light sticky-top">
+                        <tr>
+                            <th>Mã ĐH</th>
+                            <th>Ngày đặt</th>
+                            <th>Khách hàng</th>
+                            <th>Tổng tiền</th>
+                            <th>Lý do hủy đơn chi tiết</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ViewBag.CancelledOrders != null && ((List<BookStoreWeb.Models.Order>)ViewBag.CancelledOrders).Any())
+                        {
+                            foreach (var cancelled in (List<BookStoreWeb.Models.Order>)ViewBag.CancelledOrders)
+                            {
+                                string cancelReasonText = cancelled.Status;
+                                if (cancelled.Status.Contains(" - Lý do: "))
+                                {
+                                    cancelReasonText = cancelled.Status.Split(new string[] { " - Lý do: " }, StringSplitOptions.None)[1];
+                                }
+                                <tr>
+                                    <td class="fw-bold text-danger">#@cancelled.OrderId</td>
+                                    <td class="small">@cancelled.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>
+                                        <div class="fw-bold">@cancelled.ReceiverName</div>
+                                        <div class="text-muted small">📞 @cancelled.ReceiverPhone</div>
+                                    </td>
+                                    <td class="fw-bold">@cancelled.TotalAmount.ToString("N0") đ</td>
+                                    <td><span class="badge bg-warning text-dark">@cancelReasonText</span></td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-3">Chưa có đơn hàng nào bị hủy trong hệ thống.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- THIẾT LẬP HẠNG THẺ KHÁCH HÀNG (VIP) -->
+    <div class="card shadow-sm border-info mb-4">
+        <div class="card-header bg-info text-white fw-bold">
+            👑 Thiết Lập Biểu Phí & Hạng Thẻ Khách Hàng Thân Thiết (CRM)
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <div class="p-3 border rounded bg-light text-center">
+                        <span class="badge bg-primary mb-2">Bronze</span>
+                        <h6 class="fw-bold">Thành Viên Mới</h6>
+                        <p class="small text-muted mb-1">Chi tiêu: < 800.000đ</p>
+                        <span class="text-success fw-bold">Ưu đãi: 0%</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 border rounded bg-light text-center">
+                        <span class="badge bg-secondary mb-2">Silver</span>
+                        <h6 class="fw-bold">Hạng Bạc</h6>
+                        <p class="small text-muted mb-1">Chi tiêu: từ 800k - 2Tr</p>
+                        <span class="text-success fw-bold">Giảm thêm: 2%</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 border rounded bg-light text-center">
+                        <span class="badge bg-warning text-dark mb-2">Gold</span>
+                        <h6 class="fw-bold">Hạng Vàng</h6>
+                        <p class="small text-muted mb-1">Chi tiêu: từ 2Tr - 5Tr</p>
+                        <span class="text-success fw-bold">Giảm thêm: 5%</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 border rounded bg-light text-center">
+                        <span class="badge bg-dark text-warning mb-2">Diamond</span>
+                        <h6 class="fw-bold">Hạng Kim Cương</h6>
+                        <p class="small text-muted mb-1">Chi tiêu: từ 5Tr trở lên</p>
+                        <span class="text-success fw-bold">Giảm thêm: 10%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUẢN LÝ TÀI KHOẢN NGƯỜI DÙNG -->
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">👥 Quản Lý & Phân Quyền Tài Khoản Người Dùng</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                <table class="table table-bordered table-striped align-middle mb-0">
+                    <thead class="table-light sticky-top">
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Họ và tên</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                            <th>Vai trò (Role)</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ViewBag.Users != null)
+                        {
+                            foreach (var u in (List<BookStoreWeb.Models.AppUser>)ViewBag.Users)
+                            {
+                                <tr>
+                                    <td>@u.UserId</td>
+                                    <td class="fw-bold">@u.Username</td>
+                                    <td>@u.FullName</td>
+                                    <td>@u.Email</td>
+                                    <td>@u.Phone</td>
+                                    <td>
+                                        @if (u.Role == "Admin")
+                                        {
+                                            <span class="badge bg-danger">Quản trị (Admin)</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">Khách hàng (Customer)</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <a href="@Url.Action("ToggleRole", "Admin", new { id = u.UserId })" class="btn btn-sm btn-outline-primary py-0 px-2">🔄 Đổi quyền</a>
+                                            <a href="@Url.Action("DeleteUser", "Admin", new { id = u.UserId })" class="btn btn-sm btn-outline-danger py-0 px-2" onclick="return confirm('Bạn có chắc muốn xóa user này?');">🗑️ Xóa</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.status-select').change(function () {
+                var orderId = $(this).data('id');
+                var val = $(this).val();
+                if (val === 'Đã hủy') {
+                    $('#reason-' + orderId).removeClass('d-none').attr('required', 'required');
+                } else {
+                    $('#reason-' + orderId).addClass('d-none').removeAttr('required');
+                }
+            });
+        });
+    </script>
+}

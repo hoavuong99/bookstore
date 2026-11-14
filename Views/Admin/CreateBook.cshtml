@@ -1,0 +1,135 @@
+﻿@model BookStoreWeb.Models.Book
+
+@{
+    bool isEdit = Model != null && Model.BookId > 0;
+    ViewData["Title"] = isEdit ? "Chỉnh sửa thông tin sách" : "Thêm sách & Nhập kho mới";
+    int currentDiscount = ViewBag.BookDiscount != null ? (int)ViewBag.BookDiscount : 0;
+}
+
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                    <h3 class="text-primary fw-bold mb-0">
+                        @(isEdit ? "✏️ Chỉnh Sửa Toàn Diện Sách: " + Model?.Title : "➕ Thêm Sách & Nhập Kho Mới")
+                    </h3>
+                    <a asp-action="ManageBooks" class="btn btn-outline-secondary btn-sm">⬅️ Quay lại kho sách</a>
+                </div>
+
+                <form asp-action="CreateBook" method="post" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="BookId" />
+
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label class="form-label fw-bold">Tên cuốn sách <span class="text-danger">*</span></label>
+                            <input asp-for="Title" class="form-control" required placeholder="Nhập tên sách..." />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Năm xuất bản</label>
+                            <input asp-for="PublishYear" type="number" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Giá bìa gốc (VNĐ) <span class="text-danger">*</span></label>
+                            <input asp-for="Price" id="priceInput" type="number" class="form-control fw-bold" required placeholder="Ví dụ: 150000" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold text-danger">% Giảm giá khuyến mãi</label>
+                            <div class="input-group">
+                                <input type="number" name="discountPercent" id="discountInput" value="@currentDiscount" min="0" max="95" class="form-control text-danger fw-bold" />
+                                <span class="input-group-text bg-danger text-white fw-bold">%</span>
+                            </div>
+                            <small id="finalPricePreview" class="text-success fw-bold d-block mt-1"></small>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Số lượng tồn kho <span class="text-danger">*</span></label>
+                            <input asp-for="StockQuantity" type="number" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Thể loại sách <span class="text-danger">*</span></label>
+                            <select asp-for="CategoryId" class="form-select" required asp-items="@(new SelectList(ViewBag.Categories, "CategoryId", "CategoryName"))">
+                                <option value="">-- Chọn thể loại --</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Tác giả <span class="text-danger">*</span></label>
+                            <select asp-for="AuthorId" class="form-select" required asp-items="@(new SelectList(ViewBag.Authors, "AuthorId", "AuthorName"))">
+                                <option value="">-- Chọn tác giả --</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Nhà xuất bản <span class="text-danger">*</span></label>
+                            <select asp-for="PublisherId" class="form-select" required asp-items="@(new SelectList(ViewBag.Publishers, "PublisherId", "PublisherName"))">
+                                <option value="">-- Chọn NXB --</option>
+                            </select>
+                        </div>
+
+                        <!-- KHU VỰC TẢI HÌNH ẢNH BÌA SÁCH -->
+                        <div class="col-md-12">
+                            <div class="p-3 bg-light rounded border">
+                                <label class="form-label fw-bold text-primary">🖼️ Hình ảnh bìa sách</label>
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <div class="mb-2">
+                                            <label class="small text-muted">Cách 1: Chọn file ảnh từ máy tính (.jpg, .png, .webp)</label>
+                                            <input type="file" name="imageFile" id="imageFileInput" class="form-control" accept="image/*" />
+                                        </div>
+                                        <div>
+                                            <label class="small text-muted">Cách 2: Hoặc dán trực tiếp đường dẫn (URL) ảnh trên mạng</label>
+                                            <input asp-for="CoverImage" id="imageUrlInput" class="form-control form-control-sm" placeholder="https://..." />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 text-center mt-3 mt-md-0">
+                                        <img id="previewImage" src="@(string.IsNullOrEmpty(Model?.CoverImage) ? "https://via.placeholder.com/120x160?text=Bia+Sach" : Model.CoverImage)" 
+                                             class="img-thumbnail shadow-sm" style="width: 120px; height: 160px; object-fit: cover;" alt="Preview" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold">Mô tả nội dung sách</label>
+                            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Nhập giới thiệu tóm tắt nội dung cuốn sách..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary py-2 px-4 fw-bold flex-grow-1">
+                            💾 @(isEdit ? "Lưu Cập Nhật Sách" : "Lưu Sách Mới Vào Kho")
+                        </button>
+                        <a asp-action="ManageBooks" class="btn btn-secondary py-2 px-4">Hủy</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function updateFinalPrice() {
+            var price = parseFloat(document.getElementById('priceInput').value) || 0;
+            var disc = parseInt(document.getElementById('discountInput').value) || 0;
+            var finalPrice = Math.round(price * (100 - disc) / 100);
+            document.getElementById('finalPricePreview').innerText = '👉 Giá sau giảm: ' + finalPrice.toLocaleString('vi-VN') + ' VNĐ';
+        }
+        document.getElementById('priceInput').addEventListener('input', updateFinalPrice);
+        document.getElementById('discountInput').addEventListener('input', updateFinalPrice);
+        updateFinalPrice();
+
+        document.getElementById('imageFileInput').addEventListener('change', function (event) {
+            const [file] = event.target.files;
+            if (file) document.getElementById('previewImage').src = URL.createObjectURL(file);
+        });
+        document.getElementById('imageUrlInput').addEventListener('input', function () {
+            if (this.value) document.getElementById('previewImage').src = this.value;
+        });
+    </script>
+}

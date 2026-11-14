@@ -1,0 +1,135 @@
+wwwroot\css\site.css
+wwwroot\favicon.ico
+wwwroot\images\books\0f70c298_9786326033946.webp
+wwwroot\images\books\34114c8e_nxbtre_full_06402022_014041.webp
+wwwroot\images\books\8b4e459f_8936107813361 (1).webp
+wwwroot\images\books\b9453a70_De-Men-Phieu-Luu-Ky.jpg
+wwwroot\js\site.js
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map
+wwwroot\lib\bootstrap\LICENSE
+wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.js
+wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js
+wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
+wwwroot\lib\jquery-validation\dist\additional-methods.js
+wwwroot\lib\jquery-validation\dist\additional-methods.min.js
+wwwroot\lib\jquery-validation\dist\jquery.validate.js
+wwwroot\lib\jquery-validation\dist\jquery.validate.min.js
+wwwroot\lib\jquery-validation\LICENSE.md
+wwwroot\lib\jquery\dist\jquery.js
+wwwroot\lib\jquery\dist\jquery.min.js
+wwwroot\lib\jquery\dist\jquery.min.map
+wwwroot\lib\jquery\dist\jquery.slim.js
+wwwroot\lib\jquery\dist\jquery.slim.min.js
+wwwroot\lib\jquery\dist\jquery.slim.min.map
+wwwroot\lib\jquery\LICENSE.txt
+wwwroot\images\books\5771088c_bac_ho_viet_tuyen_ngon.webp
+wwwroot\support_tickets.json
+wwwroot\images\books\3e3d1f82_51b92528-97f4-4150-a761-c6cff5a60d98.webp
+wwwroot\promotions.json
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\css\site.css
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\favicon.ico
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\js\site.js
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap.css
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\js\bootstrap.js
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\js\bootstrap.js.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.js
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\jquery-validation\dist\additional-methods.js
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\jquery-validation\dist\additional-methods.min.js
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\jquery-validation\dist\jquery.validate.js
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\jquery-validation\dist\jquery.validate.min.js
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\jquery-validation\LICENSE.md
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\jquery\dist\jquery.js
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\jquery\dist\jquery.min.js
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\jquery\dist\jquery.min.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\jquery\dist\jquery.slim.js
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\jquery\dist\jquery.slim.min.js
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\jquery\dist\jquery.slim.min.map
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\lib\jquery\LICENSE.txt
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\promotions.json
+D:\daotaoTX\lập trình web\BTL\BookStoreWeb\wwwroot\support_tickets.json

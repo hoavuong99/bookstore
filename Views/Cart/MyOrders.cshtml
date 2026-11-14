@@ -1,0 +1,51 @@
+﻿@model IEnumerable<BookStoreWeb.Models.Order>
+
+@{
+    ViewData["Title"] = "Đơn hàng của tôi";
+}
+
+<div class="container my-4">
+    <h2 class="mb-4 text-primary">📦 Lịch Sử Đơn Hàng Của Bạn</h2>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle shadow-sm bg-white rounded">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Mã đơn</th>
+                        <th>Ngày đặt</th>
+                        <th>Người nhận</th>
+                        <th>Số điện thoại</th>
+                        <th>Địa chỉ giao hàng</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold">#@order.OrderId</td>
+                            <td>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>@order.ReceiverName</td>
+                            <td>@order.ReceiverPhone</td>
+                            <td>@order.ShippingAddress</td>
+                            <td class="text-danger fw-bold">@order.TotalAmount.ToString("N0") đ</td>
+                            <td>
+                                <span class="badge bg-warning text-dark">@order.Status</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning text-center py-4">
+            <h4>Bạn chưa có đơn hàng nào!</h4>
+            <a href="@Url.Action("Index", "Home")" class="btn btn-primary mt-3">Đi mua sắm ngay</a>
+        </div>
+    }
+</div>

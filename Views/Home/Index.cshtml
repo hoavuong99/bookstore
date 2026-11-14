@@ -1,0 +1,293 @@
+﻿@model IEnumerable<BookStoreWeb.Models.Book>
+@{
+    ViewData["Title"] = "Trang Chủ - Thế Giới Sách Trực Tuyến";
+}
+
+<style>
+    /* 1. CSS tùy chỉnh cho card sách và hiệu ứng */
+    .book-card-img {
+        height: 240px;
+        object-fit: cover;
+        transition: transform 0.4s ease, filter 0.4s ease;
+        cursor: pointer;
+    }
+
+    .card:hover .book-card-img {
+        transform: scale(1.07);
+        filter: brightness(1.05);
+    }
+
+    .card {
+        transition: box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+        }
+
+    .book-thumb {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+        cursor: pointer;
+
+    }
+
+    .book-card:hover .book-thumb {
+        transform: scale(1.05);
+    }
+
+    .card-hover:hover {
+        transform: translateY(-3px);
+        transition: all 0.3s ease;
+    }
+
+    /* 2. Hiệu ứng chữ chạy đổi màu và phóng to thu nhỏ sinh động */
+    @@keyframes marqueeColorPulse {
+        0% {
+            color: #ffc107;
+            transform: scale(0.98);
+        }
+
+        50% {
+            color: #ffffff;
+            transform: scale(1.02);
+        }
+
+        100% {
+            color: #ffc107;
+            transform: scale(0.98);
+        }
+    }
+
+    .animated-marquee-text {
+        display: inline-block;
+        animation: marqueeColorPulse 3s infinite ease-in-out;
+    }
+</style>
+
+<!-- ================= PHẦN 1: THANH CHỮ CHẠY KHUYẾN MÃI (Đọc từ PromoManager) ================= -->
+@if (ViewBag.IsPromoActive == true && !string.IsNullOrEmpty(ViewBag.PromoMarquee))
+{
+    <div class="bg-danger text-white py-2 px-3 fw-bold shadow-sm mb-3 d-flex align-items-center rounded-0">
+        <div class="container-fluid d-flex align-items-center px-lg-4">
+            <span class="badge bg-warning text-dark me-3 px-2 py-1 text-uppercase shadow-sm">
+                <i class="bi bi-fire"></i> @(ViewBag.PromoTitle ?? "Hot")
+            </span>
+            <marquee behavior="scroll" direction="left" scrollamount="5" class="mb-0 fs-6 fw-bold">
+                <span class="animated-marquee-text">
+                    🔥 @Html.Raw(ViewBag.PromoMarquee) 🔥
+                </span>
+            </marquee>
+        </div>
+    </div>
+}
+
+<!-- ================= PHẦN 2: BANNER FULL-WIDTH & KHUNG CAM KẾT 3D (Được đóng thẻ div gọn gàng, không bị tràn xuống dưới) ================= -->
+<div class="container-fluid px-0 mb-4">
+    <div class="position-relative overflow-hidden border-0 text-white py-5 px-4 px-lg-5"
+         style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+
+        <!-- Họa tiết trang trí chìm phía góc phải tạo chiều sâu -->
+        <div class="position-absolute top-0 end-0 translate-middle-y opacity-10 pe-none d-none d-lg-block" style="margin-right: -50px;">
+            <i class="bi bi-book-half" style="font-size: 22rem; color: #ffffff;"></i>
+        </div>
+
+        <div class="container-fluid px-2 px-md-4" style="max-width: 1440px;">
+            <div class="row align-items-center g-4 justify-content-between">
+
+                <!-- Cột trái: Tiêu đề & Nút bấm (7 phần) -->
+                <div class="col-lg-7 ps-lg-4">
+                    <span class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill fw-bold shadow-sm">
+                        <i class="bi bi-lightning-charge-fill me-1"></i> Siêu Sale Sách Trực Tuyến 2026
+                    </span>
+                    <h1 class="display-5 fw-extrabold mb-3 text-white" style="text-shadow: 0 2px 4px rgba(0,0,0,0.3); line-height: 1.2;">
+                        📚 Thế Giới <span class="text-warning">Sách Bản Quyền</span> Đỉnh Cao
+                    </h1>
+                    <p class="fs-6 fs-md-5 text-light opacity-85 mb-4" style="line-height: 1.6; max-width: 650px;">
+                        Khám phá ngay các đầu sách công nghệ, kinh tế và văn học chính hãng với mức <span class="text-warning fw-bold">giảm giá sốc</span> lớn nhất trong tuần.
+                    </p>
+                    <div>
+                        <a href="#book-list-section" class="btn btn-warning btn-lg px-4 fw-bold shadow hover-scale rounded-pill text-dark text-decoration-none">
+                            <i class="bi bi-fire me-1"></i> Khám phá sách Hot ngay
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Cột phải: Khung cam kết hiệu ứng nổi khối 3D cao cấp (5 phần) -->
+                <div class="col-lg-5 pe-lg-4">
+                    <div class="p-4 rounded-4 text-start bg-white text-dark position-relative card-hover shadow-lg"
+                         style="box-shadow: 0 1.5rem 3rem rgba(0,0,0,0.4) !important; border: 1px solid rgba(255,255,255,0.5); transform: translateY(-3px);">
+
+                        <!-- Tiêu đề khung cam kết -->
+                        <div class="d-flex align-items-center fw-bold mb-3 pb-2 border-bottom border-warning border-opacity-50">
+                            <i class="bi bi-award-fill fs-3 me-2 text-warning"></i>
+                            <span class="fs-6 text-uppercase text-danger fw-extrabold">Cam Kết Chất Lượng Vàng</span>
+                        </div>
+
+                        <!-- Danh sách các mục cam kết có nền icon màu sắc rõ nét -->
+                        <ul class="list-unstyled mb-0 ps-0" style="line-height: 2.2;">
+                            <li class="d-flex align-items-center mb-3">
+                                <div class="bg-danger text-white rounded-circle me-3 d-flex align-items-center justify-content-center shadow" style="width: 42px; height: 42px; flex-shrink: 0;">
+                                    <i class="bi bi-truck fs-5"></i>
+                                </div>
+                                <span class="fw-bold text-dark fs-6">Miễn phí vận chuyển đơn từ 250k</span>
+                            </li>
+                            <li class="d-flex align-items-center mb-3">
+                                <div class="bg-primary text-white rounded-circle me-3 d-flex align-items-center justify-content-center shadow" style="width: 42px; height: 42px; flex-shrink: 0;">
+                                    <i class="bi bi-patch-check-fill fs-5"></i>
+                                </div>
+                                <span class="fw-bold text-dark fs-6">100% sách bản quyền chính hãng</span>
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <div class="bg-success text-white rounded-circle me-3 d-flex align-items-center justify-content-center shadow" style="width: 42px; height: 42px; flex-shrink: 0;">
+                                    <i class="bi bi-arrow-counterclockwise fs-5"></i>
+                                </div>
+                                <span class="fw-bold text-dark fs-6">Hỗ trợ đổi trả nhanh chóng 7 ngày</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Thẻ định danh điểm dừng cuộn mượt -->
+<div id="book-list-section"></div>
+
+
+<!-- ================= PHẦN 3: NỘI DUNG CHÍNH (Sidebar Thể loại, Sách bán chạy & Danh sách sản phẩm của bạn) ================= -->
+<div class="container-fluid px-4 mb-5">
+    <div class="row">
+        <!-- Sidebar Danh mục -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-primary text-white fw-bold">📂 Thể Loại Sách</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><a href="@Url.Action("Index", "Home")" class="text-decoration-none text-dark fw-bold">Tất cả thể loại</a></li>
+                    <li class="list-group-item"><a href="#" class="text-decoration-none text-secondary">Công nghệ thông tin</a></li>
+                    <li class="list-group-item"><a href="#" class="text-decoration-none text-secondary">Kinh tế - Quản trị</a></li>
+                    <li class="list-group-item"><a href="#" class="text-decoration-none text-secondary">Văn học</a></li>
+                    <li class="list-group-item"><a href="#" class="text-decoration-none text-secondary">Sách Thiếu nhi</a></li>
+                </ul>
+            </div>
+
+            <!-- Box Sách Hot & Bán Chạy -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-danger text-white fw-bold d-flex justify-content-between align-items-center">
+                    <span>🔥 Sách Hot & Bán Chạy</span>
+                    <span class="badge bg-warning text-dark">TOP</span>
+                </div>
+                <div class="card-body p-2">
+                    @{
+                        int topIndex = 1;
+                    }
+                    @if (Model != null)
+                    {
+                        foreach (var hotBook in Model.Take(4))
+                        {
+                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                                <span class="badge bg-secondary me-2">#@(topIndex++)</span>
+                                <div class="flex-grow-1">
+                                    <a href="@Url.Action("Details", "Home", new { id = hotBook.BookId })" class="text-decoration-none text-dark small fw-bold text-truncate d-block" style="max-width: 160px;">@hotBook.Title</a>
+                                    <span class="text-danger small fw-bold">@hotBook.Price.ToString("N0") đ</span>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Danh sách sách chính -->
+        <div class="col-md-9">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var book in Model)
+                    {
+                        string imgSrc = string.IsNullOrEmpty(book.CoverImage) ? "https://via.placeholder.com/150x200?text=No+Image" : book.CoverImage;
+                        int discount = PromoManager.GetEffectiveDiscount(book.BookId, book.CategoryId);
+                        decimal finalPrice = book.Price * (100 - discount) / 100;
+
+                        <div class="col">
+                            <div class="card h-100 shadow-sm border-0 book-card position-relative">
+                                <span class="badge bg-danger position-absolute top-0 start-0 m-2">-@discount%</span>
+
+                                <!-- Click vào ảnh để mở Modal chi tiết -->
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#bookModal-@book.BookId" class="book-img-wrapper d-block text-decoration-none">
+                                    <img src="@imgSrc" class="book-thumb" alt="@book.Title" />
+                                </a>
+
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title fs-6">
+                                        <a href="#" class="text-decoration-none text-dark fw-bold" data-bs-toggle="modal" data-bs-target="#bookModal-@book.BookId">@book.Title</a>
+                                    </h5>
+                                    <p class="text-muted small mb-1">Tác giả: @(book.Author?.AuthorName ?? "N/A")</p>
+                                    <div class="mt-auto">
+                                        <div class="text-danger fw-bold">@finalPrice.ToString("N0") đ <del class="text-muted small fw-normal">@book.Price.ToString("N0")đ</del></div>
+                                        <div class="d-flex gap-1 mt-2">
+                                            <button type="button" class="btn btn-sm btn-outline-primary w-50" data-bs-toggle="modal" data-bs-target="#bookModal-@book.BookId">🔍 Xem</button>
+                                            <a href="@Url.Action("AddToCart", "Cart", new { id = book.BookId })" class="btn btn-sm btn-success w-50">🛒 Mua</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal Chi Tiết Cho Từng Quyển Sách -->
+                        <div class="modal fade" id="bookModal-@book.BookId" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-primary text-white">
+                                        <h5 class="modal-title fw-bold">📖 @book.Title</h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-5 text-center">
+                                                <img src="@imgSrc" class="img-fluid rounded shadow-sm" alt="@book.Title" />
+                                            </div>
+                                            <div class="col-7">
+                                                <h4 class="text-danger fw-bold mb-1">@finalPrice.ToString("N0") VNĐ</h4>
+                                                <p class="text-muted small mb-2"><del>@book.Price.ToString("N0") VNĐ</del> (Tiết kiệm @discount%)</p>
+                                                <p class="mb-1"><strong>Tác giả:</strong> @(book.Author?.AuthorName ?? "N/A")</p>
+                                                <p class="mb-1"><strong>Thể loại:</strong> @(book.Category?.CategoryName ?? "N/A")</p>
+                                                <p class="mb-2"><strong>Tồn kho:</strong> @book.StockQuantity cuốn</p>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <h6><strong>Giới thiệu nội dung:</strong></h6>
+                                        <p class="text-muted small mb-0">@(string.IsNullOrEmpty(book.Description) ? "Sách chính hãng chất lượng cao tại BookStoreWeb." : book.Description)</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Đóng</button>
+                                        <a href="@Url.Action("AddToCart", "Cart", new { id = book.BookId })" class="btn btn-success btn-sm fw-bold">🛒 Thêm vào giỏ</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12 text-center py-5">
+                        <p class="text-muted">Chưa có đầu sách nào trong hệ thống.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<FollowUp>
+    [
+    {
+    "display_text": "Xác nhận giao diện trang chủ đã hoàn thiện sạch đẹp và không còn lỗi tràn nền",
+    "prompt": "Giao diện trang chủ sau khi cập nhật toàn bộ file Index.cshtml đã hiển thị chuẩn xác và hoàn hảo chưa?"
+    }
+    ]
+</FollowUp>

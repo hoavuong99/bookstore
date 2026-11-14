@@ -1,0 +1,277 @@
+﻿@model IEnumerable<BookStoreWeb.Models.Book>
+
+@{
+    ViewData["Title"] = "Quản lý Kho Sách, Danh Mục & Khuyến Mãi";
+    var promo = ViewBag.Promo as BookStoreWeb.Models.PromoData ?? new BookStoreWeb.Models.PromoData();
+    var categories = ViewBag.Categories as List<BookStoreWeb.Models.Category> ?? new List<BookStoreWeb.Models.Category>();
+    var authors = ViewBag.Authors as List<BookStoreWeb.Models.Author> ?? new List<BookStoreWeb.Models.Author>();
+    var publishers = ViewBag.Publishers as List<BookStoreWeb.Models.Publisher> ?? new List<BookStoreWeb.Models.Publisher>();
+}
+
+<div class="container my-4">
+    <!-- Thanh tiêu đề -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 p-3 bg-white rounded shadow-sm border">
+        <div>
+            <h2 class="text-primary fw-bold mb-0">📚 Quản Lý Kho Sách, Danh Mục & Khuyến Mãi</h2>
+            <small class="text-muted">Chỉnh sửa trực tiếp Thể loại, Tác giả, NXB, Giá bán, % Giảm giá và Chữ chạy quảng cáo</small>
+        </div>
+        <div class="mt-2 mt-md-0">
+            <a asp-action="Index" class="btn btn-outline-secondary me-2">⬅️ Về Dashboard</a>
+            <a asp-action="CreateBook" class="btn btn-success fw-bold">➕ Thêm Sách / Nhập Kho Mới</a>
+        </div>
+    </div>
+
+    <!-- 1. CÀI ĐẶT CHƯƠNG TRÌNH QUẢNG CÁO CHỮ CHẠY & BANNER KHUYẾN MÃI -->
+    <div class="card shadow-sm border-danger mb-4">
+        <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 fw-bold">🔥 Cài Đặt Chương Trình Quảng Cáo & Chữ Chạy Khuyến Mãi (Hiển thị ở Trang Chủ)</h5>
+            <span class="badge @(promo.IsActive ? "bg-warning text-dark" : "bg-secondary")">
+                @(promo.IsActive ? "Đang BẬT khuyến mãi" : "Đang TẮT khuyến mãi")
+            </span>
+        </div>
+        <div class="card-body bg-light">
+            <form asp-action="UpdatePromotionBanner" method="post" class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Tiêu đề chương trình khuyến mãi (Banner)</label>
+                    <input type="text" name="programTitle" value="@promo.ProgramTitle" class="form-control" required />
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label fw-bold">Nội dung dòng chữ chạy quảng cáo (Marquee)</label>
+                    <input type="text" name="marqueeText" value="@promo.MarqueeText" class="form-control" required />
+                </div>
+                <div class="col-md-3 d-flex align-items-center gap-2">
+                    <div class="form-check form-switch me-2">
+                        <input class="form-check-input" type="checkbox" name="isActive" value="true" id="promoActiveSwitch" @(promo.IsActive ? "checked" : "")>
+                        <label class="form-check-label fw-bold" for="promoActiveSwitch">Kích hoạt</label>
+                    </div>
+                    <button type="submit" class="btn btn-danger fw-bold flex-grow-1">💾 Lưu Quảng Cáo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. QUẢN LÝ & SỬA TRỰC TIẾP: THỂ LOẠI (% GIẢM THEO LOẠI) - TÁC GIẢ - NHÀ XUẤT BẢN -->
+    <div class="row g-3 mb-4">
+        <!-- Cột 1: Thể loại & % Giảm giá theo loại -->
+        <div class="col-md-5">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-primary text-white fw-bold">📁 Quản Lý Thể Loại & % Giảm Giá Theo Loại</div>
+                <div class="card-body">
+                    <form asp-action="AddCategory" method="post" class="input-group input-group-sm mb-3">
+                        <input type="text" name="categoryName" class="form-control" required placeholder="Tên thể loại mới..." />
+                        <span class="input-group-text">Giảm %</span>
+                        <input type="number" name="discountPercent" value="0" min="0" max="95" class="form-control" style="max-width: 70px;" />
+                        <button type="submit" class="btn btn-primary fw-bold">+ Thêm</button>
+                    </form>
+
+                    <div style="max-height: 210px; overflow-y: auto;">
+                        @foreach (var c in categories)
+                        {
+                            int catDisc = promo.CategoryDiscounts.TryGetValue(c.CategoryId, out int d) ? d : 0;
+                            <div class="d-flex gap-1 mb-2 align-items-center">
+                                <form asp-action="EditCategory" method="post" class="d-flex gap-1 flex-grow-1">
+                                    <input type="hidden" name="categoryId" value="@c.CategoryId" />
+                                    <input type="text" name="categoryName" value="@c.CategoryName" class="form-control form-control-sm" required />
+                                    <div class="input-group input-group-sm" style="width: 115px;">
+                                        <span class="input-group-text text-danger fw-bold">-</span>
+                                        <input type="number" name="discountPercent" value="@catDisc" min="0" max="95" class="form-control text-danger fw-bold text-center" />
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                    <button type="submit" class="btn btn-sm btn-outline-primary" title="Lưu sửa thể loại & % giảm">💾 Sửa</button>
+                                </form>
+                                <form asp-action="DeleteCategory" method="post" onsubmit="return confirm('Xóa thể loại này?');">
+                                    <input type="hidden" name="categoryId" value="@c.CategoryId" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">🗑️</button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cột 2: Quản lý & Sửa Tác giả -->
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-info text-dark fw-bold">✍️ Quản Lý & Sửa Tác Giả</div>
+                <div class="card-body">
+                    <form asp-action="AddAuthor" method="post" class="input-group input-group-sm mb-3">
+                        <input type="text" name="authorName" class="form-control" required placeholder="Tên tác giả mới..." />
+                        <button type="submit" class="btn btn-info fw-bold">+ Thêm</button>
+                    </form>
+                    <div style="max-height: 210px; overflow-y: auto;">
+                        @foreach (var a in authors)
+                        {
+                            <div class="d-flex gap-1 mb-2 align-items-center">
+                                <form asp-action="EditAuthor" method="post" class="d-flex gap-1 flex-grow-1">
+                                    <input type="hidden" name="authorId" value="@a.AuthorId" />
+                                    <input type="text" name="authorName" value="@a.AuthorName" class="form-control form-control-sm" required />
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">💾 Sửa</button>
+                                </form>
+                                <form asp-action="DeleteAuthor" method="post" onsubmit="return confirm('Xóa tác giả này?');">
+                                    <input type="hidden" name="authorId" value="@a.AuthorId" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">🗑️</button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cột 3: Quản lý & Sửa Nhà xuất bản -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-warning text-dark fw-bold">🏢 Quản Lý & Sửa Nhà Xuất Bản</div>
+                <div class="card-body">
+                    <form asp-action="AddPublisher" method="post" class="input-group input-group-sm mb-3">
+                        <input type="text" name="publisherName" class="form-control" required placeholder="Tên NXB mới..." />
+                        <button type="submit" class="btn btn-warning fw-bold">+ Thêm</button>
+                    </form>
+                    <div style="max-height: 210px; overflow-y: auto;">
+                        @foreach (var p in publishers)
+                        {
+                            <div class="d-flex gap-1 mb-2 align-items-center">
+                                <form asp-action="EditPublisher" method="post" class="d-flex gap-1 flex-grow-1">
+                                    <input type="hidden" name="publisherId" value="@p.PublisherId" />
+                                    <input type="text" name="publisherName" value="@p.PublisherName" class="form-control form-control-sm" required />
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">💾 Sửa</button>
+                                </form>
+                                <form asp-action="DeletePublisher" method="post" onsubmit="return confirm('Xóa NXB này?');">
+                                    <input type="hidden" name="publisherId" value="@p.PublisherId" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">🗑️</button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. BẢNG DANH SÁCH SÁCH: SỬA TRỰC TIẾP THỂ LOẠI, NXB, TÁC GIẢ, GIÁ GỐC, % GIẢM, TỒN KHO -->
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">📋 Danh Sách Sách Trong Kho (@Model.Count() đầu sách) - Chỉnh sửa trực tiếp không cần xóa</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle mb-0">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th style="width: 50px;">ID</th>
+                            <th style="width: 85px;">Ảnh bìa</th>
+                            <th style="min-width: 180px;">Tên sách & Giá sau giảm</th>
+                            <th style="min-width: 220px;">Đổi Thể loại / Tác giả / NXB</th>
+                            <th style="min-width: 260px;">Giá gốc, % Giảm riêng & Tồn kho</th>
+                            <th style="width: 140px;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var book in Model)
+                        {
+                            int bookOwnDisc = promo.BookDiscounts.TryGetValue(book.BookId, out int bd) ? bd : 0;
+                            int effectiveDisc = BookStoreWeb.Models.PromoManager.GetEffectiveDiscount(book.BookId, book.CategoryId, promo);
+                            decimal finalPrice = BookStoreWeb.Models.PromoManager.GetFinalPrice(book.Price, effectiveDisc);
+
+                            <tr>
+                                <td class="fw-bold text-center">#@book.BookId</td>
+                                <td class="text-center position-relative">
+                                    @if (effectiveDisc > 0)
+                                    {
+                                        <span class="badge bg-danger position-absolute top-0 start-0 m-1">-@effectiveDisc%</span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(book.CoverImage))
+                                    {
+                                        <img src="@book.CoverImage" alt="@book.Title" class="img-thumbnail" style="width: 70px; height: 95px; object-fit: cover;" />
+                                    }
+                                    else
+                                    {
+                                        <div class="bg-secondary text-white small d-flex align-items-center justify-content-center rounded" style="width: 70px; height: 95px; margin: auto;">
+                                            Chưa có ảnh
+                                        </div>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-primary">@book.Title</div>
+                                    <small class="text-muted d-block mb-1">Năm XB: @book.PublishYear</small>
+                                    @if (effectiveDisc > 0)
+                                    {
+                                        <span class="text-decoration-line-through text-muted small me-1">@book.Price.ToString("N0")đ</span>
+                                        <span class="badge bg-danger">-@effectiveDisc%</span>
+                                        <div class="text-success fw-bold">Giá bán: @finalPrice.ToString("N0") đ</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-danger fw-bold">Giá bán: @book.Price.ToString("N0") đ</div>
+                                    }
+                                </td>
+
+                                <!-- FORM CẬP NHẬT TRỰC TIẾP TRÊN DÒNG -->
+                                <td colspan="2">
+                                    <form asp-action="UpdateStock" method="post" class="row g-1 align-items-center">
+                                        <input type="hidden" name="bookId" value="@book.BookId" />
+                                        
+                                        <!-- Cột chọn lại Thể loại, Tác giả, NXB -->
+                                        <div class="col-md-6">
+                                            <div class="input-group input-group-sm mb-1">
+                                                <span class="input-group-text" style="width: 65px;">Loại</span>
+                                                <select name="categoryId" class="form-select">
+                                                    @foreach (var c in categories)
+                                                    {
+                                                        <option value="@c.CategoryId" selected="@(book.CategoryId == c.CategoryId)">@c.CategoryName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="input-group input-group-sm mb-1">
+                                                <span class="input-group-text" style="width: 65px;">Tác giả</span>
+                                                <select name="authorId" class="form-select">
+                                                    @foreach (var a in authors)
+                                                    {
+                                                        <option value="@a.AuthorId" selected="@(book.AuthorId == a.AuthorId)">@a.AuthorName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text" style="width: 65px;">NXB</span>
+                                                <select name="publisherId" class="form-select">
+                                                    @foreach (var p in publishers)
+                                                    {
+                                                        <option value="@p.PublisherId" selected="@(book.PublisherId == p.PublisherId)">@p.PublisherName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Cột sửa Giá gốc, % Giảm riêng & Tồn kho -->
+                                        <div class="col-md-6">
+                                            <div class="input-group input-group-sm mb-1">
+                                                <span class="input-group-text" style="width: 75px;">Giá gốc</span>
+                                                <input type="number" name="price" value="@Convert.ToInt64(book.Price)" class="form-control fw-bold" required />
+                                            </div>
+                                            <div class="input-group input-group-sm mb-1">
+                                                <span class="input-group-text text-danger fw-bold" style="width: 75px;">Giảm %</span>
+                                                <input type="number" name="discountPercent" value="@bookOwnDisc" min="0" max="95" class="form-control text-danger fw-bold" />
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text" style="width: 75px;">Tồn kho</span>
+                                                <input type="number" name="stockQuantity" value="@book.StockQuantity" class="form-control fw-bold" required />
+                                                <button type="submit" class="btn btn-primary fw-bold">💾 Lưu</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </td>
+
+                                <td class="text-center">
+                                    <a asp-action="CreateBook" asp-route-id="@book.BookId" class="btn btn-sm btn-warning fw-bold mb-1 w-100">✏️ Sửa & Đổi ảnh</a>
+                                    <a asp-action="DeleteBook" asp-route-id="@book.BookId" class="btn btn-sm btn-outline-danger w-100" onclick="return confirm('Bạn có chắc muốn xóa cuốn sách này không?');">🗑️ Xóa sách</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

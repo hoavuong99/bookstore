@@ -1,0 +1,17 @@
+{
+  "IsActive": true,
+  "ProgramTitle": "\uD83D\uDD25 SI\u00CAU H\u1ED8I S\u00C1CH TR\u1EF0C TUY\u1EBEN - KHUY\u1EBEN M\u00C3I \u0110\u1EB6C BI\u1EC6T",
+  "MarqueeText": "\uD83C\uDF89 Ch\u00E0o m\u1EEBng b\u1EA1n \u0111\u1EBFn v\u1EDBi BookStoreWeb! Ch\u01B0\u01A1ng tr\u00ECnh khuy\u1EBFn m\u00E3i gi\u1EA3m gi\u00E1 l\u00EAn \u0111\u1EBFn 50% cho h\u00E0ng lo\u1EA1t \u0111\u1EA7u s\u00E1ch hot - Mi\u1EC5n ph\u00ED v\u1EADn chuy\u1EC3n to\u00E0n qu\u1ED1c! \uD83D\uDCDA",
+  "CategoryDiscounts": {
+    "1": 0,
+    "3": 0
+  },
+  "BookDiscounts": {
+    "2": 0,
+    "1": 0,
+    "3": 3,
+    "4": 14,
+    "5": 6,
+    "6": 20
+  }
+}
